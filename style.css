@@ -1,807 +1,775 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il Continente - Notizie senza confini</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        /* Reset e stili base ridotti */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Georgia', serif;
-            line-height: 1.4;
-            color: #000000;
-            background-color: #f9f9f9;
-            font-size: 13px;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-            font-size: inherit;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* Titoli ridotti */
-        h1, h2, h3, h4, h5, h6,
-        .article-title, .side-article-title, .grid-article-title,
-        .article-info p, .side-article-info p, .grid-article-info p,
-        .article-content p, .breaking-text, .date,
-        .section-title, .see-all, .article-card p,
-        .main-article h2, .main-article p {
-            color: #000000 !important;
-        }
-
-        h1 { font-size: 20px; }
-        h2 { font-size: 18px; }
-        h3 { font-size: 16px; }
-        h4 { font-size: 15px; }
-        h5, h6 { font-size: 14px; }
-
-        /* Header ridotto */
-        .top-bar {
-            background-color: #1a3e72;
-            color: white;
-            padding: 12px 0;
-            font-size: 11px;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .top-bar-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .top-links {
-            display: flex;
-            align-items: center;
-        }
-
-        .top-links a {
-            margin-left: 15px;
-            color: white;
-            font-weight: bold;
-        }
-
-        .top-links a.yellow {
-            color: #ffcc00;
-        }
-
-        .social-icons {
-            display: flex;
-            margin-left: 15px;
-        }
-
-        .social-icons a {
-            margin-left: 10px;
-            font-size: 14px;
-            color: white;
-        }
-
-        /* Main Header compatto */
-        .main-header {
-            background-color: white;
-            padding: 15px 0;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            position: relative;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .header-center {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: bold;
-            color: #000000;
-            text-transform: uppercase;
-        }
-
-        .weather {
-            display: flex;
-            align-items: center;
-        }
-
-        .weather-icon {
-            font-size: 20px;
-            color: #ffcc00;
-            margin-right: 5px;
-        }
-
-        .weather-temp {
-            font-weight: bold;
-        }
-
-        .date {
-            font-size: 12px;
-        }
-
-        /* Hamburger menu */
-        .menu-toggle {
-            display: grid;
-            cursor: pointer;
-            padding: 1px;
-            position: absolute;
-            left: 10px;
-            top: 1px;
-        }
-
-        .menu-toggle span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background-color: white;
-            margin: 4px 0;
-            transition: all 0.3s ease;
-        }
-
-        #menu-checkbox {
-            display: none;
-        }
-
-        /* Navigation compatta */
-        .main-nav::before,
-        .main-nav::after {
-            content: "";
-            display: block;
-            width: 100%;
-            height: 2px;
-            background-color: black;
-        }
-
-        .nav-list {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-        }
-
-        .nav-item {
-            position: relative;
-        }
-
-        .nav-item a {
-            display: block;
-            color: black;
-            padding: 5px 8px;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 10px;
-            position: relative;
-        }
-
-        /* Stile per gli elementi speciali del menu */
-        .nav-item.special-green a {
-            background-color: #4CAF50;
-            padding-left: 30px;
-        }
-
-        .nav-item.special-red a {
-            background-color: #f44336;
-            padding-left: 30px;
-        }
-
-        .nav-item.special-green a::before,
-        .nav-item.special-red a::before {
-            content: "★";
-            color: white;
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 14px;
-        }
-
-        /* Sezioni principali */
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #000000;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-        }
-
-        .section-title {
-            font-size: 18px;
-            text-transform: uppercase;
-        }
-
-        .see-all {
-            font-size: 12px;
-        }
-
-        /* Sezione Primo Piano - Colonna singola */
-        .primo-piano {
-            margin: 25px 0;
-        }
-
-        .primo-piano-article {
-            margin-bottom: 20px;
-        }
-
-        .primo-piano-article img {
-            width: 100%;
-            height: auto;
-            margin-bottom: 10px;
-        }
-
-        .primo-piano-article h2 {
-            font-size: 20px;
-            margin-bottom: 8px;
-        }
-
-        .primo-piano-article p {
-            font-size: 13px;
-        }
-
-        /* Sezione In Evidenza - Stessa riga */
-        .in-evidenza {
-            margin: 25px 0;
-        }
-
-        .evidenza-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
-
-        .evidenza-card {
-            background-color: white;
-            border-radius: 3px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        .evidenza-card img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-        }
-
-        .evidenza-content {
-            padding: 10px;
-        }
-
-        .evidenza-card h3 {
-            font-size: 15px;
-            margin-bottom: 8px;
-        }
-
-        /* Sezione Mantova Calcio - Stessa riga, sfondo blu */
-        .mantova-calcio {
-            background-color: #1a3e72;
-            padding: 20px 0;
-            margin: 25px 0;
-            color: white;
-        }
-
-        .mantova-calcio .section-title,
-        .mantova-calcio .see-all,
-        .mantova-calcio h3,
-        .mantova-calcio p {
-            color: white !important;
-        }
-
-        .mantova-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
-
-        .mantova-card img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-        }
-
-        .mantova-content {
-            padding: 10px;
-        }
-
-        /* Sezione Cronaca - Colonna singola */
-        .cronaca {
-            margin: 25px 0;
-        }
-
-        .cronaca-article {
-            display: flex;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .cronaca-article img {
-            width: 150px;
-            height: 100px;
-            object-fit: cover;
-            margin-right: 15px;
-        }
-
-        .cronaca-content h3 {
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
-
-        /* Sezione Cultura e Spettacoli - Stessa riga, sfondo blu */
-        .cultura-spettacoli {
-            background-color: #1a3e72;
-            padding: 20px 0;
-            margin: 25px 0;
-            color: white;
-        }
-
-        .cultura-spettacoli .section-title,
-        .cultura-spettacoli .see-all,
-        .cultura-spettacoli h3,
-        .cultura-spettacoli p {
-            color: white !important;
-        }
-
-        .cultura-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-        }
-
-        .cultura-card img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-        }
-
-        .cultura-content {
-            padding: 5px 0;
-        }
-
-        /* Sezione Altre Notizie - Griglia su più righe */
-        .altre-notizie {
-            margin: 25px 0;
-            background-color: white;
-            padding: 15px;
-        }
-
-        .altre-notizie-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-        }
-
-        .altre-notizie-card img {
-            width: 100%;
-            height: 100px;
-            object-fit: cover;
-        }
-
-        .altre-notizie-content h4 {
-            font-size: 13px;
-            margin-top: 5px;
-        }
-
-        /* Sezione Sport - Stessa riga, sfondo blu */
-        .sport {
-            background-color: #1a3e72;
-            padding: 20px 0;
-            margin: 25px 0;
-            color: white;
-        }
-
-        .sport .section-title,
-        .sport .see-all,
-        .sport h3,
-        .sport p {
-            color: white !important;
-        }
-
-        .sport-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-        }
-
-        .sport-card img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-        }
-
-        .sport-content {
-            padding: 5px 0;
-        }
-
-        /* Sezione Rubriche - Griglia su più righe */
-        .rubriche {
-            margin: 25px 0;
-        }
-
-        .rubriche-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-        }
-
-        .rubriche-card img {
-            width: 100%;
-            height: 100px;
-            object-fit: cover;
-        }
-
-        .rubriche-content h4 {
-            font-size: 13px;
-            margin-top: 5px;
-        }
-
-        /* Sezione Video - Stessa riga, sfondo blu */
-        .video-section {
-            background-color: #1a3e72;
-            padding: 20px 0;
-            margin: 25px 0;
-            color: white;
-        }
-
-        .video-section .section-title,
-        .video-section .see-all,
-        .video-section h3,
-        .video-section p {
-            color: white !important;
-        }
-
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-        }
-
-        .video-card {
-            position: relative;
-        }
-
-        .video-card img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-        }
-
-        .play-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            background-color: rgba(0,0,0,0.5);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-
-        .video-title {
-            font-size: 13px;
-            margin-top: 5px;
-        }
-
-        /* Sezione Telemantova, Italia e Mondo - Colonna singola con video */
-        .telemantova-italia-mondo {
-            margin: 25px 0;
-        }
-
-        .tim-article {
-            display: flex;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .tim-article img {
-            width: 150px;
-            height: 100px;
-            object-fit: cover;
-            margin-right: 15px;
-        }
-
-        .tim-content h3 {
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
-
-        .video-badge {
-            display: inline-block;
-            background-color: #d32f2f;
-            color: white;
-            padding: 2px 5px;
-            font-size: 11px;
-            border-radius: 3px;
-            margin-left: 5px;
-        }
-
-        /* Sezione Necrologie - Lista con foto */
-        .necrologie {
-            margin: 25px 0;
-        }
-
-        .necrologie-list {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-        }
-
-        .necrologia-item {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            background-color: #f5f5f5;
-            border-radius: 3px;
-        }
-
-        .necrologia-item img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-
-        .necrologia-info h4 {
-            font-size: 14px;
-            margin-bottom: 3px;
-        }
-
-        .necrologia-info p {
-            font-size: 12px;
-            color: #666;
-        }
-
-        /* Breaking News ridotto */
-        .breaking-news {
-            background-color: #d32f2f;
-            color: white;
-            padding: 10px 0;
-            margin: 20px 0;
-        }
-
-        .breaking-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .breaking-label {
-            font-weight: bold;
-            margin-right: 10px;
-            text-transform: uppercase;
-            font-size: 12px;
-        }
-
-        .breaking-text {
-            font-size: 14px;
-        }
-
-        /* Footer compatto */
-        .main-footer {
-            background-color: #222;
-            color: white;
-            padding: 20px 0 10px;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .footer-column h3 {
-            color: #ffcc00;
-            margin-bottom: 15px;
-            font-size: 15px;
-        }
-
-        .footer-column ul {
-            list-style: none;
-        }
-
-        .footer-column li {
-            margin-bottom: 8px;
-        }
-
-        .footer-column a {
-            color: #ccc;
-            font-size: 12px;
-        }
-
-        .footer-column a:hover {
-            color: white;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 20px;
-            margin-top: 20px;
-            border-top: 1px solid #444;
-            font-size: 12px;
-            color: #999;
-        }
-
-        /* Stili aggiunti per la top bar */
-        .edition {
-            display: flex;
-            align-items: center;
-        }
-
-        .edition-item {
-            display: flex;
-            align-items: center;
-            margin-right: 15px;
-        }
-
-        .edition-item i {
-            margin-right: 5px;
-            color: #ffcc00;
-        }
-
-        .newspaper-name {
-            font-weight: bold;
-            margin-right: 20px;
-            font-size: 14px;
-        }
-
-        /* Responsive Design adattato */
-        @media (max-width: 992px) {
-            .evidenza-grid,
-            .mantova-grid,
-            .cultura-grid,
-            .altre-notizie-grid,
-            .sport-grid,
-            .rubriche-grid,
-            .video-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .necrologie-list {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-list {
-                display: none;
-                flex-direction: column;
-                width: 100%;
-                background-color: #1a3e72;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                z-index: 1000;
-            }
-
-            #menu-checkbox:checked ~ .nav-list {
-                display: flex;
-            }
-
-            .nav-item {
-                width: 100%;
-                text-align: left;
-            }
-
-            .nav-item a {
-                padding: 12px 20px;
-                font-size: 14px;
-            }
-
-            .menu-toggle {
-                display: block;
-            }
-
-            .header-content {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .header-left,
-            .header-center,
-            .header-right {
-                position: static;
-                transform: none;
-                width: 100%;
-                justify-content: space-between;
-                margin-bottom: 5px;
-            }
-
-            .logo {
-                text-align: center;
-                width: 100%;
-            }
-
-            .weather {
-                justify-content: flex-start;
-            }
-
-            .date {
-                text-align: right;
-            }
-
-            .evidenza-grid,
-            .mantova-grid,
-            .cultura-grid,
-            .altre-notizie-grid,
-            .sport-grid,
-            .rubriche-grid,
-            .video-grid,
-            .necrologie-list {
-                grid-template-columns: 1fr;
-            }
-
-            .cronaca-article,
-            .tim-article {
-                flex-direction: column;
-            }
-
-            .cronaca-article img,
-            .tim-article img {
-                width: 100%;
-                height: auto;
-                margin-right: 0;
-                margin-bottom: 10px;
-            }
-
-            .logo {
-                font-size: 24px;
-            }
-
-            .section-title {
-                font-size: 16px;
-            }
-
-            .social-icons {
-                display: none;
-            }
-
-            .edition {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .edition-item {
-                margin-right: 0;
-                margin-bottom: 5px;
-            }
-
-            .newspaper-name {
-                margin-bottom: 10px;
-            }
-        }
-    </style>
-</head>
+/* Reset e stili base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', serif;
+    line-height: 1.4;
+    color: #000000;
+    background-color: #f9f9f9;
+    font-size: 13px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    font-size: inherit;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Titoli */
+h1, h2, h3, h4, h5, h6,
+.article-title, .side-article-title, .grid-article-title,
+.article-info p, .side-article-info p, .grid-article-info p,
+.article-content p, .breaking-text, .date,
+.section-title, .see-all, .article-card p,
+.main-article h2, .main-article p {
+    color: #000000 !important;
+}
+
+h1 { font-size: 20px; }
+h2 { font-size: 18px; }
+h3 { font-size: 16px; }
+h4 { font-size: 15px; }
+h5, h6 { font-size: 14px; }
+
+/* Header */
+.top-bar {
+    background-color: #1a3e72;
+    color: white;
+    padding: 12px 0;
+    font-size: 11px;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.top-bar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-links {
+    display: flex;
+    align-items: center;
+}
+
+.top-links a {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+}
+
+.top-links a.yellow {
+    color: #ffcc00;
+}
+
+.social-icons {
+    display: flex;
+    margin-left: 15px;
+}
+
+.social-icons a {
+    margin-left: 10px;
+    font-size: 14px;
+    color: white;
+}
+
+/* Main Header compatto */
+.main-header {
+    background-color: white;
+    padding: 15px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #000000;
+    text-transform: uppercase;
+}
+
+.weather {
+    display: flex;
+    align-items: center;
+}
+
+.weather-icon {
+    font-size: 20px;
+    color: #ffcc00;
+    margin-right: 5px;
+}
+
+.weather-temp {
+    font-weight: bold;
+}
+
+.date {
+    font-size: 12px;
+}
+
+/* Hamburger menu */
+.menu-toggle {
+    display: grid;
+    cursor: pointer;
+    padding: 1px;
+    position: absolute;
+    left: 10px;
+    top: 1px;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 4px 0;
+    transition: all 0.3s ease;
+}
+
+#menu-checkbox {
+    display: none;
+}
+
+/* Navigation compatta */
+.main-nav::before,
+.main-nav::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: black;
+}
+
+.nav-list {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-item a {
+    display: block;
+    color: black;
+    padding: 5px 8px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 10px;
+    position: relative;
+}
+
+/* Stile per gli elementi speciali del menu */
+.nav-item.special-green a {
+    background-color: #4CAF50;
+    padding-left: 30px;
+}
+
+.nav-item.special-red a {
+    background-color: #f44336;
+    padding-left: 30px;
+}
+
+.nav-item.special-green a::before,
+.nav-item.special-red a::before {
+    content: "★";
+    color: white;
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+}
+
+/* Sezioni principali */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #000000;
+    padding-bottom: 8px;
+    margin-bottom: 15px;
+}
+
+.section-title {
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.see-all {
+    font-size: 12px;
+}
+
+/* Sezione Primo Piano */
+.primo-piano {
+    margin: 25px 0;
+}
+
+.primo-piano-article {
+    margin-bottom: 20px;
+}
+
+.primo-piano-article img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.primo-piano-article h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.primo-piano-article p {
+    font-size: 13px;
+}
+
+/* Sezione In Evidenza */
+.in-evidenza {
+    margin: 25px 0;
+}
+
+.evidenza-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.evidenza-card {
+    background-color: white;
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.evidenza-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.evidenza-content {
+    padding: 10px;
+}
+
+.evidenza-card h3 {
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+/* Sezione Mantova Calcio */
+.mantova-calcio {
+    background-color: #1a3e72;
+    padding: 20px 0;
+    margin: 25px 0;
+    color: white;
+}
+
+.mantova-calcio .section-title,
+.mantova-calcio .see-all,
+.mantova-calcio h3,
+.mantova-calcio p {
+    color: white !important;
+}
+
+.mantova-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.mantova-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.mantova-content {
+    padding: 10px;
+}
+
+/* Sezione Cronaca */
+.cronaca {
+    margin: 25px 0;
+}
+
+.cronaca-article {
+    display: flex;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.cronaca-article img {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.cronaca-content h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+/* Sezione Cultura */
+.cultura {
+    background-color: #1a3e72;
+    padding: 20px 0;
+    margin: 25px 0;
+    color: white;
+}
+
+.cultura .section-title,
+.cultura .see-all,
+.cultura h3,
+.cultura p {
+    color: white !important;
+}
+
+.cultura-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.cultura-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.cultura-content {
+    padding: 5px 0;
+}
+
+/* Sezione Altre Notizie */
+.altre-notizie {
+    margin: 25px 0;
+    background-color: white;
+    padding: 15px;
+}
+
+.altre-notizie-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.altre-notizie-card img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+}
+
+.altre-notizie-content h4 {
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* Sezione Sport */
+.sport {
+    background-color: #1a3e72;
+    padding: 20px 0;
+    margin: 25px 0;
+    color: white;
+}
+
+.sport .section-title,
+.sport .see-all,
+.sport h3,
+.sport p {
+    color: white !important;
+}
+
+.sport-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.sport-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.sport-content {
+    padding: 5px 0;
+}
+
+/* Sezione Rubriche */
+.rubriche {
+    margin: 25px 0;
+}
+
+.rubriche-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.rubriche-card img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+}
+
+.rubriche-content h4 {
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* Sezione Video */
+.video-section {
+    background-color: #1a3e72;
+    padding: 20px 0;
+    margin: 25px 0;
+    color: white;
+}
+
+.video-section .section-title,
+.video-section .see-all,
+.video-section h3,
+.video-section p {
+    color: white !important;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.video-card {
+    position: relative;
+}
+
+.video-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background-color: rgba(0,0,0,0.5);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.video-title {
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* Sezione Italia e Mondo */
+.italia-mondo {
+    margin: 25px 0;
+}
+
+.tim-article {
+    display: flex;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.tim-article img {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+
+.tim-content h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.video-badge {
+    display: inline-block;
+    background-color: #d32f2f;
+    color: white;
+    padding: 2px 5px;
+    font-size: 11px;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+
+/* Sezione Necrologie */
+.necrologie {
+    margin: 25px 0;
+}
+
+.necrologie-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.necrologia-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 3px;
+}
+
+.necrologia-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.necrologia-info h4 {
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+
+.necrologia-info p {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Footer compatto */
+.main-footer {
+    background-color: #222;
+    color: white;
+    padding: 20px 0 10px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.footer-column h3 {
+    color: #ffcc00;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+.footer-column ul {
+    list-style: none;
+}
+
+.footer-column li {
+    margin-bottom: 8px;
+}
+
+.footer-column a {
+    color: #ccc;
+    font-size: 12px;
+}
+
+.footer-column a:hover {
+    color: white;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 1px solid #444;
+    font-size: 12px;
+    color: #999;
+}
+
+/* Stili per la top bar */
+.edition {
+    display: flex;
+    align-items: center;
+}
+
+.edition-item {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.edition-item i {
+    margin-right: 5px;
+    color: #ffcc00;
+}
+
+.newspaper-name {
+    font-weight: bold;
+    margin-right: 20px;
+    font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .evidenza-grid,
+    .mantova-grid,
+    .cultura-grid,
+    .altre-notizie-grid,
+    .sport-grid,
+    .rubriche-grid,
+    .video-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .necrologie-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-list {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: #1a3e72;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+    }
+
+    #menu-checkbox:checked ~ .nav-list {
+        display: flex;
+    }
+
+    .nav-item {
+        width: 100%;
+        text-align: left;
+    }
+
+    .nav-item a {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .header-content {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .header-left,
+    .header-center,
+    .header-right {
+        position: static;
+        transform: none;
+        width: 100%;
+        justify-content: space-between;
+        margin-bottom: 5px;
+    }
+
+    .logo {
+        text-align: center;
+        width: 100%;
+    }
+
+    .weather {
+        justify-content: flex-start;
+    }
+
+    .date {
+        text-align: right;
+    }
+
+    .evidenza-grid,
+    .mantova-grid,
+    .cultura-grid,
+    .altre-notizie-grid,
+    .sport-grid,
+    .rubriche-grid,
+    .video-grid,
+    .necrologie-list {
+        grid-template-columns: 1fr;
+    }
+
+    .cronaca-article,
+    .tim-article {
+        flex-direction: column;
+    }
+
+    .cronaca-article img,
+    .tim-article img {
+        width: 100%;
+        height: auto;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .logo {
+        font-size: 24px;
+    }
+
+    .section-title {
+        font-size: 16px;
+    }
+
+    .social-icons {
+        display: none;
+    }
+
+    .edition {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .edition-item {
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+
+    .newspaper-name {
+        margin-bottom: 10px;
+    }
+}
